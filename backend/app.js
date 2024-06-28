@@ -2,13 +2,26 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import { FRONTEND_URL } from './config/utils.js';
+import { FRONTEND_URL,SESSION_SECRET } from './config/utils.js';
+import session from 'express-session';
+import passport from './config/passport';
 import authRouter from './routes/auth.js';
 import postsRouter from './routes/posts.js';
 import userRouter from './routes/user.js';
 import errorMiddleware from './middlewares/error-middleware.js';
 
 const app = express();
+
+app.use(
+  session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   cors({

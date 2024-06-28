@@ -6,6 +6,7 @@ import {
   signOutUser,
   isLoggedIn,
 } from '../controllers/auth-controller.js';
+import passport from '../config/passport.js';
 
 const router = Router();
 
@@ -18,5 +19,18 @@ router.post('/signout', authMiddleware, signOutUser);
 
 //CHECK USER STATUS
 router.get('/check/:_id', isLoggedIn);
+
+// Twitter auth route
+router.get('/twitter', passport.authenticate('twitter'));
+
+// Twitter callback route
+router.get(
+  '/twitter/callback',
+  passport.authenticate('twitter', { failureRedirect: '/signin' }),
+  (req, res) => {
+    // Successful authentication
+    res.redirect('/'); // Redirect to home or any other page
+  }
+);
 
 export default router;
