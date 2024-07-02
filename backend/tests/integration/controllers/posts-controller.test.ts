@@ -1,17 +1,17 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import Post from '../../../models/post.js';
-import server from '../../../server.js';
-import { validCategories, HTTP_STATUS, RESPONSE_MESSAGES } from '../../../utils/constants.js';
-import { createPostObject } from '../../utils/helper-objects.js';
-import { expect, jest, it, afterAll, describe } from '@jest/globals';
+import Post from '../../../models/post';
+import server from '../../../server';
+import { validCategories, HTTP_STATUS, RESPONSE_MESSAGES } from '../../../utils/constants';
+import { createPostObject } from '../../utils/helper-objects';
 
 afterAll(async () => {
   await mongoose.disconnect();
 });
 
-let postId;
+let postId: string;
 const invalidPostId = '609c16c69405b14574c99999';
+
 describe('Integration Tests: Post creation', () => {
   it('Post creation: Success - All fields are valid', async () => {
     const response = await request(server).post('/api/posts').send(createPostObject());
@@ -21,7 +21,7 @@ describe('Integration Tests: Post creation', () => {
     expect(response.status).toBe(HTTP_STATUS.OK);
     expect(response.body).toHaveProperty('_id');
     expect(fetchedPost).not.toBeNull();
-    expect(fetchedPost.title).toBe(createPostObject().title);
+    expect(fetchedPost!.title).toBe(createPostObject().title);
   });
 
   it('Post creation: Failure - Missing required fields', async () => {
@@ -74,6 +74,7 @@ describe('Integration Tests: Post creation', () => {
     });
   });
 });
+
 describe('Integration Tests: Get all posts', () => {
   it('Get all posts: Success', async () => {
     const response = await request(server).get('/api/posts');
@@ -82,6 +83,7 @@ describe('Integration Tests: Get all posts', () => {
     expect(response.body).toBeInstanceOf(Array);
   });
 });
+
 describe('Integration Tests: Get all posts by category', () => {
   it('Get all posts by category: Success', async () => {
     const category = validCategories[0];
@@ -101,6 +103,7 @@ describe('Integration Tests: Get all posts by category', () => {
     });
   });
 });
+
 describe('Integration Tests: Get all featured posts', () => {
   it('Get all featured posts: Success', async () => {
     const responseFeatured = await request(server).get('/api/posts/featured');
@@ -109,6 +112,7 @@ describe('Integration Tests: Get all featured posts', () => {
     expect(responseFeatured.body.length).toBeGreaterThan(1);
   });
 });
+
 describe('Integration Tests: Get all latest posts', () => {
   it('Get all latest posts: Success', async () => {
     const responseLatest = await request(server).get('/api/posts/latest');
@@ -117,6 +121,7 @@ describe('Integration Tests: Get all latest posts', () => {
     expect(responseLatest.body.length).toBeGreaterThan(1);
   });
 });
+
 describe('Integration Tests: Update Post', () => {
   it('Update Post: Success - Update Post of existing ID', async () => {
     let updatedPost;
@@ -128,7 +133,7 @@ describe('Integration Tests: Update Post', () => {
 
     expect(response.status).toBe(HTTP_STATUS.OK);
     expect(updatedPost).not.toBeNull();
-    expect(updatedPost.title).toBe('Updated Post');
+    expect(updatedPost!.title).toBe('Updated Post');
   });
 
   it('Update Post: Failure - Invalid post ID', async () => {
@@ -142,6 +147,7 @@ describe('Integration Tests: Update Post', () => {
     });
   });
 });
+
 describe('Integration Tests: Delete Post', () => {
   it('Delete Post: Success - Removing Post with specific ID', async () => {
     let deletedPost;
