@@ -1,4 +1,4 @@
-export const validCategories = [
+export const validCategories: string[] = [
   'Travel',
   'Nature',
   'City',
@@ -7,6 +7,7 @@ export const validCategories = [
   'Landmarks',
   'Mountains',
 ];
+
 export const HTTP_STATUS = {
   OK: 200,
   CREATED: 201,
@@ -17,6 +18,7 @@ export const HTTP_STATUS = {
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
 };
+
 export const RESPONSE_MESSAGES = {
   COMMON: {
     INTERNAL_SERVER_ERROR: 'Internal Server Error',
@@ -31,6 +33,7 @@ export const RESPONSE_MESSAGES = {
     MAX_CATEGORIES: 'Please select up to three categories only',
     INVALID_IMAGE_URL: 'Image URL must end with .jpg, .jpeg, .webp, or .png',
     NOT_ALLOWED: 'You are not allowed to perform this action.',
+    CATEGORIES_NOTFOUND: 'Categories not found.',
   },
   USERS: {
     SIGNED_UP: 'New user created',
@@ -39,7 +42,7 @@ export const RESPONSE_MESSAGES = {
     USER_EMAIL_EXISTS: 'Email already exists',
     USER_USERNAME_EXISTS: 'Username already exists',
     EMAIL_ALREADY_IN_USE: 'Email have been already used.',
-    USER_NOT_EXISTS: "User don't exist",
+    USER_NOT_EXISTS: 'User does not exist.',
     AUTH_CODE_NOT_FOUND: 'Something went wrong',
     INVALID_PASSWORD: 'Invalid password.',
     INVALID_TOKEN: 'Token is Invalid or expired!',
